@@ -24,6 +24,7 @@
     "prebuild": "pnpm clean",
     "build": "pnpm prebuild && microbundle --jsx React.createElement",
     "compile": "graphql-codegen --clean && graphql-codegen",
+    "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
