@@ -39,6 +39,9 @@ jobs:
         name: Pnpm install
         run: pnpm recursive install --frozen-lockfile --strict-peer-dependencies
 
+      - name: Compile
+        run: pnpm compile
+
       - name: Build
         run: pnpm build
 
