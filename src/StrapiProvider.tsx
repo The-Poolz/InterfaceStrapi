@@ -1,3 +1,5 @@
+import React from "react"
+
 import { ApolloProvider } from "@apollo/client"
 import { AClient } from "./ApolloClient"
 

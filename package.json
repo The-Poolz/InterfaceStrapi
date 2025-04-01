@@ -34,6 +34,7 @@
     "@graphql-codegen/cli": "^5.0.5",
     "@graphql-codegen/client-preset": "^4.8.0",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@types/react": "^19.0.12",
     "microbundle": "^0.15.1",
     "typescript": "^5.8.2"
   },
