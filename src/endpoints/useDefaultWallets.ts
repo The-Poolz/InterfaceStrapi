@@ -3,10 +3,9 @@ import { graphql } from "../__generated__"
 
 const GET_DEFAULT_WALLETS = graphql(`
   query DefaultWallets {
-    defaultWallets {
+    defaultWallets(sort: "order") {
       Name
       Link
-      order
       Icon {
         url
       }
