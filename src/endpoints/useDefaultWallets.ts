@@ -14,4 +14,4 @@ const GET_DEFAULT_WALLETS = graphql(`
   }
 `)
 
-export const useAccount = () => useQuery(GET_DEFAULT_WALLETS, { client: AClient, fetchPolicy: "cache-first" })
+export const useDefaultWallets = () => useQuery(GET_DEFAULT_WALLETS, { client: AClient, fetchPolicy: "cache-first" })
