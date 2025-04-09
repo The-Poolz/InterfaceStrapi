@@ -124,5 +124,5 @@ const GET_PROJECT_DETAILS = graphql(`
   }
 `)
 
-export const useProjectDetails = (documentId: string) =>
-  useQuery(GET_PROJECT_DETAILS, { client: AClient, fetchPolicy: "cache-first", variables: { documentId } })
+export const useProjectDetails = (documentId?: string) =>
+  useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, fetchPolicy: "cache-first", variables: { documentId } } : { skip: true })
