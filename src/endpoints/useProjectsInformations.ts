@@ -96,6 +96,12 @@ const GET_PROJECT_DETAILS = graphql(`
             name
             symbol
           }
+          colorIcon {
+            Color
+            icon {
+              url
+            }
+          }
         }
       }
       Original {
@@ -106,6 +112,12 @@ const GET_PROJECT_DETAILS = graphql(`
             name
             symbol
             chainId
+          }
+          colorIcon {
+            Color
+            icon {
+              url
+            }
           }
         }
       }
