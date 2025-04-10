@@ -113,7 +113,6 @@ const GET_PROJECT_DETAILS = graphql(`
         Name
         ExplainText
         Color
-        documentId
       }
     }
     covers {
