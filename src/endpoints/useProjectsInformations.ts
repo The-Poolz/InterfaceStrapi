@@ -125,7 +125,7 @@ const GET_PROJECT_DETAILS = graphql(`
       ido_badge {
         Name
         ExplainText
-        Color
+        ColorCode
       }
     }
     covers {
