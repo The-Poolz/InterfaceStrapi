@@ -1,6 +1,6 @@
 {
   "name": "@poolzfinance/strapi",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "",
   "type": "module",
   "source": "src/index.ts",
