@@ -63,6 +63,19 @@ const GET_PROJECT_DETAILS = graphql(`
             url
           }
         }
+        SmartLinks {
+          URL
+          link_type {
+            Name
+            IsOnTop
+            DarkIcon {
+              url
+            }
+            LightIcon {
+              url
+            }
+          }
+        }
       }
       UploadPool {
         id
