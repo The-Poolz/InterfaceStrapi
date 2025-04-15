@@ -4,7 +4,6 @@ import { graphql } from "../__generated__"
 const GET_PROJECT_DETAILS = graphql(`
   query ProjectsInformation($documentId: ID!) {
     projectsInformation(documentId: $documentId) {
-      CryptorankKey
       PoolzBackId
       WhitelistId
       Name
