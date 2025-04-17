@@ -51,6 +51,33 @@ const GET_UPCOMING_IDO = graphql(`
           TotalRaise
         }
       }
+      UploadPool {
+        id
+        WhitelistRate
+        PublicRate
+        TotalTokens
+        Participants
+        buy_with {
+          Name
+        }
+      }
+      Syntetic {
+        TokenAddress
+        chain_setting {
+          DisplayText
+          chain {
+            chainId
+            name
+            symbol
+          }
+          colorIcon {
+            Color
+            icon {
+              url
+            }
+          }
+        }
+      }
       Logo {
         url
       }
