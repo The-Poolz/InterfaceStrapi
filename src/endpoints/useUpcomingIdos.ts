@@ -32,6 +32,7 @@ const GET_UPCOMING_IDO = graphql(`
             chainId
           }
           colorIcon {
+            Color
             icon {
               url
             }
