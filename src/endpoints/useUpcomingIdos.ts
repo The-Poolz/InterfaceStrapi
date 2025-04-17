@@ -51,6 +51,12 @@ const GET_UPCOMING_IDO = graphql(`
           TotalRaise
         }
       }
+      Logo {
+        url
+      }
+      Block {
+        url
+      }
     }
   }
 `)
