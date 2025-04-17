@@ -4,8 +4,9 @@ import { graphql } from "../__generated__"
 const GET_UPCOMING_IDO = graphql(`
   query ProjectsInformations($FinishTime: DateTime!) {
     projectsInformations(
-      filters: { IsTimeTBA: { eq: true }, IsShow: { eq: true }, FinishTime: { gte: $FinishTime } }
-      sort: "StartTime:ASC"
+      filters: { IsShow: { eq: true }, or: [{ IsTimeTBA: { eq: true } }, { FinishTime: { gte: $FinishTime } }] }
+      sort: ["IsTimeTBA:ASC", "StartTime:ASC"]
+      pagination: { limit: 100 }
     ) {
       documentId
       PoolzBackId
