@@ -9,6 +9,7 @@ const GET_UPCOMING_IDO = graphql(`
       pagination: { limit: 100 }
     ) {
       documentId
+      IsTimeTBA
       PoolzBackId
       WhitelistId
       Name
