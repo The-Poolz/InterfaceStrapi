@@ -62,8 +62,13 @@ const GET_UPCOMING_IDO = graphql(`
 `)
 
 export const useUpcomingIdos = (FinishTime?: string) =>
-  useQuery(GET_UPCOMING_IDO, {
-    client: AClient,
-    fetchPolicy: "cache-first",
-    variables: { FinishTime: FinishTime ?? new Date().toISOString() }
-  })
+  useQuery(
+    GET_UPCOMING_IDO,
+    FinishTime
+      ? {
+          client: AClient,
+          fetchPolicy: "cache-first",
+          variables: { FinishTime }
+        }
+      : { skip: true }
+  )
