@@ -264,5 +264,5 @@ const GET_PROJECTS_DETAILS = graphql(`
 export const useProjectDetails = (documentId?: string) =>
   useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, fetchPolicy: "cache-first", variables: { documentId } } : { skip: true })
 
-export const useProjectsDetails = (variables: { filters: ProjectsInformationFiltersInput; pagination: PaginationArg; sort: string[] }) =>
+export const useProjectsDetails = (variables: { filters: ProjectsInformationFiltersInput; pagination: PaginationArg; sort?: string[] }) =>
   useQuery(GET_PROJECTS_DETAILS, { client: AClient, fetchPolicy: "cache-first", variables })
