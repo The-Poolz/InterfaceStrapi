@@ -1,5 +1,6 @@
 import { useQuery, AClient } from "../index"
 import { graphql } from "../__generated__"
+import { type ProjectsInformationFiltersInput, type PaginationArg } from "../__generated__/graphql"
 
 const GET_PROJECT_DETAILS = graphql(`
   query ProjectsInformation($documentId: ID!) {
@@ -138,6 +139,20 @@ const GET_PROJECT_DETAILS = graphql(`
         ExplainText
         ColorCode
       }
+      chain_setting {
+        DisplayText
+        chain {
+          chainId
+          name
+          symbol
+        }
+        colorIcon {
+          Color
+          icon {
+            url
+          }
+        }
+      }
     }
     covers {
       picture {
@@ -147,5 +162,107 @@ const GET_PROJECT_DETAILS = graphql(`
   }
 `)
 
+const GET_PROJECTS_DETAILS = graphql(`
+  query ProjectsInformations($filters: ProjectsInformationFiltersInput, $pagination: PaginationArg, $sort: [String]) {
+    projectsInformations(filters: $filters, sort: $sort, pagination: $pagination) {
+      documentId
+      IsTimeTBA
+      PoolzBackId
+      WhitelistId
+      Name
+      StartTime
+      FinishTime
+      ATHROI
+      ido_badge {
+        Name
+        ExplainText
+        ColorCode
+      }
+      Original {
+        TokenAddress
+        chain_setting {
+          DisplayText
+          Show
+          chain {
+            name
+            symbol
+            chainId
+          }
+          colorIcon {
+            Color
+            icon {
+              url
+            }
+          }
+          WhiteLogo {
+            url
+          }
+        }
+      }
+      VisualText {
+        Tokenomics {
+          MarketCap
+          TGEMarketCap
+          Symbol
+          CirculationSupply
+          TotalSupply
+          USDPrice
+          TotalRaise
+        }
+      }
+      UploadPool {
+        id
+        WhitelistRate
+        PublicRate
+        TotalTokens
+        Participants
+        buy_with {
+          Name
+        }
+      }
+      Syntetic {
+        TokenAddress
+        chain_setting {
+          DisplayText
+          chain {
+            chainId
+            name
+            symbol
+          }
+          colorIcon {
+            Color
+            icon {
+              url
+            }
+          }
+        }
+      }
+      Logo {
+        url
+      }
+      Block {
+        url
+      }
+      chain_setting {
+        DisplayText
+        chain {
+          chainId
+          name
+          symbol
+        }
+        colorIcon {
+          Color
+          icon {
+            url
+          }
+        }
+      }
+    }
+  }
+`)
+
 export const useProjectDetails = (documentId?: string) =>
   useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, fetchPolicy: "cache-first", variables: { documentId } } : { skip: true })
+
+export const useProjectsDetails = (variables: { filters: ProjectsInformationFiltersInput; pagination: PaginationArg; sort?: string[] }) =>
+  useQuery(GET_PROJECTS_DETAILS, { client: AClient, fetchPolicy: "cache-first", variables })
