@@ -2,7 +2,7 @@ import { useQuery, AClient } from "../index"
 import { graphql } from "../__generated__"
 
 const GET_UPCOMING_IDO = graphql(`
-  query ProjectsInformations($FinishTime: DateTime!) {
+  query ProjectsInformations_DEPRECATED($FinishTime: DateTime!) {
     projectsInformations(
       filters: { IsShow: { eq: true }, or: [{ IsTimeTBA: { eq: true } }, { FinishTime: { gte: $FinishTime } }] }
       sort: ["IsTimeTBA:ASC", "StartTime:ASC"]
@@ -86,10 +86,27 @@ const GET_UPCOMING_IDO = graphql(`
       Block {
         url
       }
+      chain_setting {
+        DisplayText
+        chain {
+          chainId
+          name
+          symbol
+        }
+        colorIcon {
+          Color
+          icon {
+            url
+          }
+        }
+      }
     }
   }
 `)
 
+/**
+ * @deprecated Use {@link useProjectsDetails} instead.
+ */
 export const useUpcomingIdos = (FinishTime?: string) =>
   useQuery(
     GET_UPCOMING_IDO,
