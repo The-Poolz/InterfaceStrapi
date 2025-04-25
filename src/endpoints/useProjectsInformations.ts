@@ -257,6 +257,14 @@ const GET_PROJECTS_DETAILS = graphql(`
           }
         }
       }
+      Investors {
+        investor {
+          Name
+          Icon {
+            url
+          }
+        }
+      }
     }
   }
 `)
