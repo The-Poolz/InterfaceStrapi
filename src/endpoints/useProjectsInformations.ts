@@ -220,6 +220,14 @@ const GET_PROJECTS_DETAILS = graphql(`
           Name
           ChainAddresses {
             Address
+            chain_setting {
+              DisplayText
+              chain {
+                name
+                symbol
+                chainId
+              }
+            }
           }
         }
       }
