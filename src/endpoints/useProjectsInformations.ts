@@ -218,6 +218,9 @@ const GET_PROJECTS_DETAILS = graphql(`
         Participants
         buy_with {
           Name
+          ChainAddresses {
+            Address
+          }
         }
       }
       Syntetic {
