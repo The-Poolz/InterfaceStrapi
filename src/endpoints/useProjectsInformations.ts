@@ -62,6 +62,7 @@ const GET_PROJECT_DETAILS = graphql(`
           VisualInfo {
             url
           }
+          TokenPrice
         }
         SmartLinks {
           URL
@@ -208,6 +209,7 @@ const GET_PROJECTS_DETAILS = graphql(`
           TotalSupply
           USDPrice
           TotalRaise
+          TokenPrice
         }
       }
       UploadPool {
