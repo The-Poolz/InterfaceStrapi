@@ -167,6 +167,7 @@ const GET_PROJECTS_DETAILS = graphql(`
   query ProjectsInformations($filters: ProjectsInformationFiltersInput, $pagination: PaginationArg, $sort: [String]) {
     projectsInformations(filters: $filters, sort: $sort, pagination: $pagination) {
       documentId
+      IsShow
       IsTimeTBA
       PoolzBackId
       WhitelistId
