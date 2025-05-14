@@ -1,5 +1,6 @@
 import { useEffect } from "react"
-import { useQuery, DocumentNode, useApolloClient } from "./index"
+import { useQuery, DocumentNode } from "./index"
+import { useGetClient } from "./globalState/Context"
 
 interface IHookProps<T> {
   fullQuery: DocumentNode
@@ -8,7 +9,7 @@ interface IHookProps<T> {
 }
 
 export const useCacheWithUpdatedAt = <T>(options: IHookProps<T>) => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   const { getUpdatedAt, fullQuery, updatedAtQuery } = options
   const { data: fullData, loading: fullLoading, error, refetch } = useQuery<T>(fullQuery, { client: AClient, fetchPolicy: "cache-first" })
 

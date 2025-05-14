@@ -1,5 +1,6 @@
-import { useQuery, useApolloClient } from "../index"
+import { useQuery } from "../index"
 import { graphql } from "../__generated__"
+import { useGetClient } from "../globalState/Context"
 
 const GET_VAULT_FAGS = graphql(`
   query VaultFaqs {
@@ -11,6 +12,6 @@ const GET_VAULT_FAGS = graphql(`
 `)
 
 export const useVaultFaqs = () => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_VAULT_FAGS, { client: AClient })
 }

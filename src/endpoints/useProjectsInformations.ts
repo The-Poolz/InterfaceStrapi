@@ -1,6 +1,7 @@
-import { useQuery, useLazyQuery, useApolloClient } from "../index"
+import { useQuery, useLazyQuery } from "../index"
 import { graphql } from "../__generated__"
 import { type ProjectsInformationFiltersInput, type PaginationArg } from "../__generated__/graphql"
+import { useGetClient } from "../globalState/Context"
 
 const GET_PROJECT_DETAILS = graphql(`
   query ProjectsInformation($documentId: ID!) {
@@ -284,7 +285,7 @@ const GET_PROJECTS_DETAILS = graphql(`
 `)
 
 export const useProjectDetails = (documentId?: string) => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, variables: { documentId } } : { skip: true })
 }
 
@@ -293,12 +294,12 @@ export const useProjectsDetails = (variables?: {
   pagination: PaginationArg
   sort?: string[]
 }) => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_PROJECTS_DETAILS, variables ? { client: AClient, variables } : { skip: true })
 }
 
 export const useLazyProjectsDetails = () => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useLazyQuery(GET_PROJECTS_DETAILS, {
     client: AClient
   })

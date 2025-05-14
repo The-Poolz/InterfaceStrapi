@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { ApolloProvider, ApolloClient, NormalizedCacheObject, InMemoryCache } from "index"
 import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist"
+import GlobalContext from "./globalState/Context"
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>()
@@ -13,7 +14,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         storage: new LocalStorageWrapper(window.localStorage),
         debug: !!~location.hash.indexOf("debug")
         // trigger: 'write',
-      });
+      })
       await newPersistor.restore()
       setClient(
         new ApolloClient({
@@ -26,12 +27,15 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         }),
       )
     }
-
-    init().catch(console.error);
+    init().catch(console.error)
   }, [])
 
   if (!client) return null
-  return <ApolloProvider client={client}>{children}</ApolloProvider>
+  return <ApolloProvider client={client}>
+    <GlobalContext.Provider value={{ client }}>
+      {children}
+    </GlobalContext.Provider>
+  </ApolloProvider>
 }
 
 export default Provider

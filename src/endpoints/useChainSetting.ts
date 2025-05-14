@@ -1,5 +1,6 @@
-import { useQuery, useApolloClient } from "../index"
+import { useQuery } from "../index"
 import { graphql } from "../__generated__"
+import { useGetClient } from "../globalState/Context"
 
 const GET_CHAINS_OF_PROJECTS = graphql(`
   query Chain_setting {
@@ -14,7 +15,7 @@ const GET_CHAINS_OF_PROJECTS = graphql(`
 `)
 
 export const useChainSetting = () => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_CHAINS_OF_PROJECTS, {
     client: AClient
   })
