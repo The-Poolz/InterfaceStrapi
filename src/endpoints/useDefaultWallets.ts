@@ -1,4 +1,4 @@
-import { useQuery, AClient } from "../index"
+import { useQuery, useApolloClient } from "../index"
 import { graphql } from "../__generated__"
 
 const GET_DEFAULT_WALLETS = graphql(`
@@ -13,4 +13,7 @@ const GET_DEFAULT_WALLETS = graphql(`
   }
 `)
 
-export const useDefaultWallets = () => useQuery(GET_DEFAULT_WALLETS, { client: AClient, fetchPolicy: "cache-first" })
+export const useDefaultWallets = () => {
+  const AClient = useApolloClient()
+  return useQuery(GET_DEFAULT_WALLETS, { client: AClient })
+}

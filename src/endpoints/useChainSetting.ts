@@ -1,4 +1,4 @@
-import { useQuery, AClient } from "../index"
+import { useQuery, useApolloClient } from "../index"
 import { graphql } from "../__generated__"
 
 const GET_CHAINS_OF_PROJECTS = graphql(`
@@ -13,8 +13,9 @@ const GET_CHAINS_OF_PROJECTS = graphql(`
   }
 `)
 
-export const useChainSetting = () =>
-  useQuery(GET_CHAINS_OF_PROJECTS, {
-    client: AClient,
-    fetchPolicy: "cache-first"
+export const useChainSetting = () => {
+  const AClient = useApolloClient()
+  return useQuery(GET_CHAINS_OF_PROJECTS, {
+    client: AClient
   })
+}
