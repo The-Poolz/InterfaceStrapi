@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery, AClient } from "../index"
+import { useQuery, useLazyQuery, useApolloClient } from "../index"
 import { graphql } from "../__generated__"
 import { type ProjectsInformationFiltersInput, type PaginationArg } from "../__generated__/graphql"
 
@@ -283,13 +283,22 @@ const GET_PROJECTS_DETAILS = graphql(`
   }
 `)
 
-export const useProjectDetails = (documentId?: string) =>
-  useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, fetchPolicy: "cache-first", variables: { documentId } } : { skip: true })
+export const useProjectDetails = (documentId?: string) => {
+  const AClient = useApolloClient()
+  return useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, variables: { documentId } } : { skip: true })
+}
 
-export const useProjectsDetails = (variables?: { filters: ProjectsInformationFiltersInput; pagination: PaginationArg; sort?: string[] }) =>
-  useQuery(GET_PROJECTS_DETAILS, variables ? { client: AClient, fetchPolicy: "cache-first", variables } : { skip: true })
+export const useProjectsDetails = (variables?: {
+  filters: ProjectsInformationFiltersInput
+  pagination: PaginationArg
+  sort?: string[]
+}) => {
+  const AClient = useApolloClient()
+  return useQuery(GET_PROJECTS_DETAILS, variables ? { client: AClient, variables } : { skip: true })
+}
 
 export const useLazyProjectsDetails = () => {
+  const AClient = useApolloClient()
   return useLazyQuery(GET_PROJECTS_DETAILS, {
     client: AClient
   })

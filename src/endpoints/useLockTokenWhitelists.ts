@@ -1,4 +1,4 @@
-import { useQuery, AClient } from "../index"
+import { useQuery, useApolloClient } from "../index"
 import { graphql } from "../__generated__"
 
 const GET_LOCK_TOKEN_WHITELISTS = graphql(`
@@ -13,5 +13,7 @@ const GET_LOCK_TOKEN_WHITELISTS = graphql(`
   }
 `)
 
-export const useLockTokenWhitelists = (chainId: number, types: string[]) =>
-  useQuery(GET_LOCK_TOKEN_WHITELISTS, { client: AClient, fetchPolicy: "cache-first", variables: { chainId, typesIn: types } })
+export const useLockTokenWhitelists = (chainId: number, types: string[]) => {
+  const AClient = useApolloClient()
+  return useQuery(GET_LOCK_TOKEN_WHITELISTS, { client: AClient, variables: { chainId, typesIn: types } })
+}

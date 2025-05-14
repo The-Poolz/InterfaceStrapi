@@ -3,7 +3,6 @@ export default Provider
 
 export * from "@apollo/client"
 export * from "@apollo/client/testing"
-export * from "./ApolloClient"
 export * as types from "./__generated__/graphql"
 
 export * from "./endpoints/useFooter"

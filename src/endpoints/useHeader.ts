@@ -1,7 +1,7 @@
-import { useQuery, AClient } from "../index"
+import { useQuery, useApolloClient } from "../index"
 import { graphql } from "../__generated__"
 
-export const GET_HEADER = graphql(`
+const GET_HEADER = graphql(`
   query Header {
     header {
       HeaderList {
@@ -15,4 +15,7 @@ export const GET_HEADER = graphql(`
   }
 `)
 
-export const useHeader = () => useQuery(GET_HEADER, { client: AClient, fetchPolicy: "cache-first" })
+export const useHeader = () => {
+  const AClient = useApolloClient()
+  return useQuery(GET_HEADER, { client: AClient })
+}

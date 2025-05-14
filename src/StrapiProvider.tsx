@@ -1,10 +1,37 @@
-import React from "react"
-
-import { ApolloProvider } from "@apollo/client"
-import { AClient } from "./ApolloClient"
+import React, { useEffect, useState } from "react"
+import { ApolloProvider, ApolloClient, NormalizedCacheObject, InMemoryCache } from "index"
+import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist"
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-  return <ApolloProvider client={AClient}>{children}</ApolloProvider>
+  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>()
+
+  useEffect(() => {
+    async function init() {
+      const cache = new InMemoryCache();
+      let newPersistor = new CachePersistor({
+        cache,
+        storage: new LocalStorageWrapper(window.localStorage),
+        debug: !!~location.hash.indexOf("debug")
+        // trigger: 'write',
+      });
+      await newPersistor.restore()
+      setClient(
+        new ApolloClient({
+          uri: "https://data.poolz.finance/graphql",
+          cache,
+          defaultOptions: {
+            watchQuery: { fetchPolicy: "cache-first" },
+            query: { fetchPolicy: "cache-first" }
+          }
+        }),
+      )
+    }
+
+    init().catch(console.error);
+  }, [])
+
+  if (!client) return null
+  return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
 
 export default Provider

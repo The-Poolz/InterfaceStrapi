@@ -1,4 +1,4 @@
-import { useQuery, AClient } from "../index"
+import { useQuery, useApolloClient } from "../index"
 import { graphql } from "../__generated__"
 
 const GET_MAIN = graphql(`
@@ -45,4 +45,7 @@ const GET_MAIN = graphql(`
   }
 `)
 
-export const useMain = () => useQuery(GET_MAIN, { client: AClient, fetchPolicy: "cache-first" })
+export const useMain = () => {
+  const AClient = useApolloClient()
+  return useQuery(GET_MAIN, { client: AClient })
+}

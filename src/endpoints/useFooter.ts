@@ -1,4 +1,4 @@
-import { useQuery, AClient } from "../index"
+import { useQuery, useApolloClient } from "../index"
 import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
 import { graphql } from "../__generated__"
 import * as types from "../__generated__/graphql"
@@ -49,7 +49,10 @@ const GET_FOOTER_UPDATED = graphql(`
   }
 `)
 
-export const useFooter = () => useQuery(GET_FOOTER, { client: AClient, fetchPolicy: "cache-first" })
+export const useFooter = () => {
+  const AClient = useApolloClient()
+  return useQuery(GET_FOOTER, { client: AClient })
+}
 export const useFooter_persist = () =>
   useCacheWithUpdatedAt<NonNullable<types.FooterQuery>>({
     fullQuery: GET_FOOTER,
