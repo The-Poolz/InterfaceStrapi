@@ -1,5 +1,6 @@
-import { useQuery, useApolloClient } from "../index"
+import { useQuery } from "../index"
 import { graphql } from "../__generated__"
+import { useGetClient } from "../globalState/Context"
 
 const GET_ACCOUNT = graphql(`
   query Account {
@@ -18,6 +19,6 @@ const GET_ACCOUNT = graphql(`
 `)
 
 export const useAccount = () => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_ACCOUNT, { client: AClient })
 }

@@ -1,5 +1,6 @@
-import { useQuery, useApolloClient } from "../index"
+import { useQuery } from "../index"
 import { graphql } from "../__generated__"
+import { useGetClient } from "../globalState/Context"
 
 const GET_HEADER = graphql(`
   query Header {
@@ -16,6 +17,6 @@ const GET_HEADER = graphql(`
 `)
 
 export const useHeader = () => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_HEADER, { client: AClient })
 }

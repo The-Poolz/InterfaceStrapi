@@ -1,7 +1,8 @@
-import { useQuery, useApolloClient } from "../index"
+import { useQuery } from "../index"
 import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
 import { graphql } from "../__generated__"
 import * as types from "../__generated__/graphql"
+import { useGetClient } from "../globalState/Context"
 
 const GET_FOOTER = graphql(`
   query Footer {
@@ -50,7 +51,7 @@ const GET_FOOTER_UPDATED = graphql(`
 `)
 
 export const useFooter = () => {
-  const AClient = useApolloClient()
+  const AClient = useGetClient()
   return useQuery(GET_FOOTER, { client: AClient })
 }
 export const useFooter_persist = () =>
