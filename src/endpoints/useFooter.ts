@@ -51,12 +51,13 @@ const GET_FOOTER_UPDATED = graphql(`
 `)
 
 export const useFooter = () => {
-  const AClient = useGetClient()
-  return useQuery(GET_FOOTER, { client: AClient })
+  const client = useGetClient()
+  return useQuery(GET_FOOTER, { client })
 }
+
 export const useFooter_persist = () =>
-  useCacheWithUpdatedAt<NonNullable<types.FooterQuery>>({
+  useCacheWithUpdatedAt<NonNullable<types.FooterQuery>, NonNullable<types.FooterUpdatedQuery>>({
     fullQuery: GET_FOOTER,
     updatedAtQuery: GET_FOOTER_UPDATED,
-    getUpdatedAt: (data) => data.footer?.updatedAt ?? Symbol()
+    getUpdatedAt: (data) => data.footer?.updatedAt ?? ""
   })
