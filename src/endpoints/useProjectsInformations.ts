@@ -1,6 +1,11 @@
-import { useQuery, useLazyQuery } from "../index"
+import { useQuery, useLazyQuery, type QueryHookOptions, type LazyQueryHookOptions } from "../index"
 import { graphql } from "../__generated__"
-import { type ProjectsInformationFiltersInput, type PaginationArg } from "../__generated__/graphql"
+import {
+  type ProjectsInformationFiltersInput,
+  type PaginationArg,
+  type ProjectsInformationsQuery,
+  type ProjectsInformationsQueryVariables
+} from "../__generated__/graphql"
 import { useGetClient } from "../globalState/Context"
 
 const GET_PROJECT_DETAILS = graphql(`
@@ -289,18 +294,41 @@ export const useProjectDetails = (documentId?: string) => {
   return useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, variables: { documentId } } : { skip: true })
 }
 
-export const useProjectsDetails = (variables?: {
+type Variables = {
   filters: ProjectsInformationFiltersInput
   pagination: PaginationArg
   sort?: string[]
-}) => {
-  const AClient = useGetClient()
-  return useQuery(GET_PROJECTS_DETAILS, variables ? { client: AClient, variables } : { skip: true })
+}
+
+export const useProjectsDetails = (variables?: Variables) => {
+  const client = useGetClient()
+  return useQuery(GET_PROJECTS_DETAILS, variables ? { client, variables } : { skip: true })
+}
+
+export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInformationsQuery, Variables>) => {
+  const client = useGetClient()
+
+  return useQuery<ProjectsInformationsQuery, Variables>(GET_PROJECTS_DETAILS, {
+    ...options,
+    client,
+    skip: options?.skip ?? !options?.variables
+  })
 }
 
 export const useLazyProjectsDetails = () => {
-  const AClient = useGetClient()
+  const client = useGetClient()
   return useLazyQuery(GET_PROJECTS_DETAILS, {
-    client: AClient
+    client
+  })
+}
+
+export const useLazyProjectsInformations = (
+  options?: LazyQueryHookOptions<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>
+) => {
+  const client = useGetClient()
+
+  return useLazyQuery<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>(GET_PROJECTS_DETAILS, {
+    ...options,
+    client
   })
 }
