@@ -2,18 +2,29 @@ import { useEffect } from "react"
 import { useQuery, DocumentNode } from "./index"
 import { useGetClient } from "./globalState/Context"
 
-interface IHookProps<T> {
+interface IHookProps<TFull, TUpdated> {
   fullQuery: DocumentNode
   updatedAtQuery: DocumentNode
-  getUpdatedAt: (data: T) => string
+  getUpdatedAt: (data: TUpdated | TFull) => string
 }
 
-export const useCacheWithUpdatedAt = <T>(options: IHookProps<T>) => {
-  const AClient = useGetClient()
-  const { getUpdatedAt, fullQuery, updatedAtQuery } = options
-  const { data: fullData, loading: fullLoading, error, refetch } = useQuery<T>(fullQuery, { client: AClient, fetchPolicy: "cache-first" })
+export const useCacheWithUpdatedAt = <TFull, TUpdated>({ fullQuery, updatedAtQuery, getUpdatedAt }: IHookProps<TFull, TUpdated>) => {
+  const client = useGetClient()
 
-  const { data: updatedData, loading: updatedLoading } = useQuery<T>(updatedAtQuery, { client: AClient, fetchPolicy: "network-only" })
+  const {
+    data: fullData,
+    loading: fullLoading,
+    error,
+    refetch
+  } = useQuery<TFull>(fullQuery, {
+    client,
+    fetchPolicy: "cache-first"
+  })
+
+  const { data: updatedData, loading: updatedLoading } = useQuery<TUpdated>(updatedAtQuery, {
+    client,
+    fetchPolicy: "network-only"
+  })
 
   useEffect(() => {
     if (!updatedLoading && updatedData && fullData) {

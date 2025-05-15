@@ -1,11 +1,6 @@
-import { useQuery, useLazyQuery, type QueryHookOptions, type LazyQueryHookOptions } from "../index"
+import { useQuery, useLazyQuery, type QueryHookOptions } from "../index"
 import { graphql } from "../__generated__"
-import {
-  type ProjectsInformationFiltersInput,
-  type PaginationArg,
-  type ProjectsInformationsQuery,
-  type ProjectsInformationsQueryVariables
-} from "../__generated__/graphql"
+import { type ProjectsInformationsQuery, type ProjectsInformationsQueryVariables } from "../__generated__/graphql"
 import { useGetClient } from "../globalState/Context"
 
 const GET_PROJECT_DETAILS = graphql(`
@@ -294,21 +289,16 @@ export const useProjectDetails = (documentId?: string) => {
   return useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, variables: { documentId } } : { skip: true })
 }
 
-type Variables = {
-  filters: ProjectsInformationFiltersInput
-  pagination: PaginationArg
-  sort?: string[]
-}
-
-export const useProjectsDetails = (variables?: Variables) => {
+/** @deprecated Use a new hook 'useProjectsInformations'. */
+export const useProjectsDetails = (variables?: ProjectsInformationsQueryVariables) => {
   const client = useGetClient()
   return useQuery(GET_PROJECTS_DETAILS, variables ? { client, variables } : { skip: true })
 }
 
-export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInformationsQuery, Variables>) => {
+export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>) => {
   const client = useGetClient()
 
-  return useQuery<ProjectsInformationsQuery, Variables>(GET_PROJECTS_DETAILS, {
+  return useQuery<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>(GET_PROJECTS_DETAILS, {
     ...options,
     client,
     skip: options?.skip ?? !options?.variables
@@ -318,17 +308,6 @@ export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInfor
 export const useLazyProjectsDetails = () => {
   const client = useGetClient()
   return useLazyQuery(GET_PROJECTS_DETAILS, {
-    client
-  })
-}
-
-export const useLazyProjectsInformations = (
-  options?: LazyQueryHookOptions<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>
-) => {
-  const client = useGetClient()
-
-  return useLazyQuery<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>(GET_PROJECTS_DETAILS, {
-    ...options,
     client
   })
 }
