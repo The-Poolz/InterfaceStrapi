@@ -37,7 +37,7 @@ export const useCacheWithUpdatedAt = <TFull, TUpdated>({ fullQuery, updatedAtQue
   useEffect(() => {
     if (!updatedLoading && updatedData && fullData) {
       if (getUpdatedAt(fullData) !== getUpdatedAt(updatedData)) {
-        setTimeout(refetch, 5000)
+        refetch()
       }
     }
   }, [updatedLoading, updatedData, fullData, refetch, getUpdatedAt])
