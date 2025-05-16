@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react"
-import { ApolloClient, NormalizedCacheObject } from "../index"
+import { ApolloClient, type NormalizedCacheObject } from "../index"
 
 interface IContextType {
   client: ApolloClient<NormalizedCacheObject>
