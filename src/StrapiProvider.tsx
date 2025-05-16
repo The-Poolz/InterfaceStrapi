@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { ApolloProvider, ApolloClient, NormalizedCacheObject, InMemoryCache } from "index"
+import { ApolloProvider, ApolloClient, type NormalizedCacheObject, InMemoryCache } from "./index"
 import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist"
 import GlobalContext from "./globalState/Context"
 
@@ -8,12 +8,11 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     async function init() {
-      const cache = new InMemoryCache();
-      let newPersistor = new CachePersistor({
+      const cache = new InMemoryCache()
+      const newPersistor = new CachePersistor({
         cache,
         storage: new LocalStorageWrapper(window.localStorage),
         debug: !!~location.hash.indexOf("debug")
-        // trigger: 'write',
       })
       await newPersistor.restore()
       setClient(
