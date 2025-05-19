@@ -4,7 +4,8 @@ import { graphql } from "../__generated__"
 
 const GET_VAULT_FAGS = graphql(`
   query VaultFaqs {
-    vaultFaqs {
+    vaultFaqs(sort: ["documentId:asc"]) {
+      documentId
       ShortText
       LongText
       updatedAt
@@ -13,7 +14,7 @@ const GET_VAULT_FAGS = graphql(`
 `)
 const GET_VAULT_FAGS_UPDATED = graphql(`
   query VaultFaqsUpdated {
-    vaultFaqs {
+    vaultFaqs(sort: ["documentId:asc"]) {
       updatedAt
     }
   }
