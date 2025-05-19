@@ -39,7 +39,7 @@ export const useCacheWithUpdatedAt = <TFull, TUpdated, TVariables extends Record
     if (isFromCache) {
       getLazy({ variables })
     }
-  }, [isFromCache, variables, getLazy])
+  }, [isFromCache, getLazy]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!updatedLoading && updatedData && fullData) {
