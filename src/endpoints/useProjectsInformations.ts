@@ -285,14 +285,8 @@ const GET_PROJECTS_DETAILS = graphql(`
 `)
 
 export const useProjectDetails = (documentId?: string) => {
-  const AClient = useGetClient()
-  return useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, variables: { documentId } } : { skip: true })
-}
-
-/** @deprecated Use a new hook 'useProjectsInformations'. */
-export const useProjectsDetails = (variables?: ProjectsInformationsQueryVariables) => {
   const client = useGetClient()
-  return useQuery(GET_PROJECTS_DETAILS, variables ? { client, variables } : { skip: true })
+  return useQuery(GET_PROJECT_DETAILS, documentId ? { client, variables: { documentId } } : { skip: true })
 }
 
 export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>) => {
