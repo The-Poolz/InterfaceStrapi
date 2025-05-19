@@ -1,6 +1,6 @@
-import { useQuery } from "../index"
+import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
 import { graphql } from "../__generated__"
-import { useGetClient } from "../globalState/Context"
+import * as types from "../__generated__/graphql"
 
 const GET_HEADER = graphql(`
   query Header {
@@ -12,11 +12,21 @@ const GET_HEADER = graphql(`
         ctaText
         textColor
       }
+      updatedAt
     }
   }
 `)
 
-export const useHeader = () => {
-  const AClient = useGetClient()
-  return useQuery(GET_HEADER, { client: AClient })
-}
+const GET_HEADER_UPDATED = graphql(`
+  query HeaderUpdated {
+    header {
+      updatedAt
+    }
+  }
+`)
+export const useHeader = () =>
+  useCacheWithUpdatedAt<NonNullable<types.HeaderQuery>, NonNullable<types.HeaderUpdatedQuery>>({
+    fullQuery: GET_HEADER,
+    updatedAtQuery: GET_HEADER_UPDATED,
+    getUpdatedAt: (data) => data.header?.updatedAt ?? ""
+  })
