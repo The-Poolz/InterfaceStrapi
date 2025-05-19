@@ -2,6 +2,8 @@ import { useQuery, useLazyQuery, type QueryHookOptions } from "../index"
 import { graphql } from "../__generated__"
 import { type ProjectsInformationsQuery, type ProjectsInformationsQueryVariables } from "../__generated__/graphql"
 import { useGetClient } from "../globalState/Context"
+import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
+import * as types from "../__generated__/graphql"
 
 const GET_PROJECT_DETAILS = graphql(`
   query ProjectsInformation($documentId: ID!) {
@@ -155,11 +157,19 @@ const GET_PROJECT_DETAILS = graphql(`
           }
         }
       }
+      updatedAt
     }
     covers {
       picture {
         url
       }
+    }
+  }
+`)
+const GET_PROJECT_DETAILS_UPDATED = graphql(`
+  query ProjectsInformationUpdated($documentId: ID!) {
+    projectsInformation(documentId: $documentId) {
+      updatedAt
     }
   }
 `)
@@ -284,16 +294,17 @@ const GET_PROJECTS_DETAILS = graphql(`
   }
 `)
 
-export const useProjectDetails = (documentId?: string) => {
-  const AClient = useGetClient()
-  return useQuery(GET_PROJECT_DETAILS, documentId ? { client: AClient, variables: { documentId } } : { skip: true })
-}
-
-/** @deprecated Use a new hook 'useProjectsInformations'. */
-export const useProjectsDetails = (variables?: ProjectsInformationsQueryVariables) => {
-  const client = useGetClient()
-  return useQuery(GET_PROJECTS_DETAILS, variables ? { client, variables } : { skip: true })
-}
+export const useProjectDetails = (documentId: string) =>
+  useCacheWithUpdatedAt<
+    NonNullable<types.ProjectsInformationQuery>,
+    NonNullable<types.ProjectsInformationUpdatedQuery>,
+    types.ProjectsInformationQueryVariables
+  >({
+    fullQuery: GET_PROJECT_DETAILS,
+    updatedAtQuery: GET_PROJECT_DETAILS_UPDATED,
+    getUpdatedAt: (data) => data.projectsInformation?.updatedAt ?? "",
+    variables: { documentId }
+  })
 
 export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>) => {
   const client = useGetClient()

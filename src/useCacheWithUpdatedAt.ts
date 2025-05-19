@@ -2,13 +2,19 @@ import { useEffect, useRef } from "react"
 import { useQuery, useLazyQuery, type DocumentNode, NetworkStatus } from "./index"
 import { useGetClient } from "./globalState/Context"
 
-interface IHookProps<TFull, TUpdated> {
+interface IHookProps<TFull, TUpdated, TVariables extends Record<string, unknown> | undefined = undefined> {
   fullQuery: DocumentNode
   updatedAtQuery: DocumentNode
   getUpdatedAt: (data: TUpdated | TFull) => string
+  variables?: TVariables
 }
 
-export const useCacheWithUpdatedAt = <TFull, TUpdated>({ fullQuery, updatedAtQuery, getUpdatedAt }: IHookProps<TFull, TUpdated>) => {
+export const useCacheWithUpdatedAt = <TFull, TUpdated, TVariables extends Record<string, unknown> | undefined = undefined>({
+  fullQuery,
+  updatedAtQuery,
+  getUpdatedAt,
+  variables
+}: IHookProps<TFull, TUpdated, TVariables>) => {
   const client = useGetClient()
 
   const {
@@ -19,6 +25,7 @@ export const useCacheWithUpdatedAt = <TFull, TUpdated>({ fullQuery, updatedAtQue
     networkStatus
   } = useQuery<TFull>(fullQuery, {
     client,
+    variables,
     fetchPolicy: "cache-first"
   })
   const isFromCache = useRef(networkStatus === NetworkStatus.ready && !fullLoading).current
@@ -30,14 +37,14 @@ export const useCacheWithUpdatedAt = <TFull, TUpdated>({ fullQuery, updatedAtQue
 
   useEffect(() => {
     if (isFromCache) {
-      getLazy()
+      getLazy({ variables })
     }
-  }, [isFromCache, getLazy])
+  }, [isFromCache, variables, getLazy])
 
   useEffect(() => {
     if (!updatedLoading && updatedData && fullData) {
       if (getUpdatedAt(fullData) !== getUpdatedAt(updatedData)) {
-        setTimeout(refetch, 5000)
+        refetch()
       }
     }
   }, [updatedLoading, updatedData, fullData, refetch, getUpdatedAt])

@@ -1,6 +1,6 @@
-import { useQuery } from "../index"
+import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
+import * as types from "../__generated__/graphql"
 import { graphql } from "../__generated__"
-import { useGetClient } from "../globalState/Context"
 
 const GET_DEFAULT_WALLETS = graphql(`
   query DefaultWallets {
@@ -10,11 +10,23 @@ const GET_DEFAULT_WALLETS = graphql(`
       Icon {
         url
       }
+      updatedAt
     }
   }
 `)
 
-export const useDefaultWallets = () => {
-  const AClient = useGetClient()
-  return useQuery(GET_DEFAULT_WALLETS, { client: AClient })
-}
+const GET_DEFAULT_WALLETS_UPDATED = graphql(`
+  query DefaultWalletsUpdated {
+    defaultWallets(sort: "order") {
+      updatedAt
+    }
+  }
+`)
+export const useDefaultWallets = () =>
+  useCacheWithUpdatedAt<NonNullable<types.DefaultWalletsQuery>, NonNullable<types.DefaultWalletsUpdatedQuery>>({
+    fullQuery: GET_DEFAULT_WALLETS,
+    updatedAtQuery: GET_DEFAULT_WALLETS_UPDATED,
+    getUpdatedAt: (data) => {
+      return data.defaultWallets?.map((c) => c?.updatedAt ?? "").join(",") ?? ""
+    }
+  })

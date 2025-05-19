@@ -1,6 +1,6 @@
-import { useQuery } from "../index"
+import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
+import * as types from "../__generated__/graphql"
 import { graphql } from "../__generated__"
-import { useGetClient } from "../globalState/Context"
 
 const GET_MAIN = graphql(`
   query Main {
@@ -42,11 +42,21 @@ const GET_MAIN = graphql(`
           id
         }
       }
+      updatedAt
+    }
+  }
+`)
+const GET_MAIN_UPDATED = graphql(`
+  query MainUpdated {
+    main {
+      updatedAt
     }
   }
 `)
 
-export const useMain = () => {
-  const AClient = useGetClient()
-  return useQuery(GET_MAIN, { client: AClient })
-}
+export const useMain = () =>
+  useCacheWithUpdatedAt<NonNullable<types.MainQuery>, NonNullable<types.MainUpdatedQuery>>({
+    fullQuery: GET_MAIN,
+    updatedAtQuery: GET_MAIN_UPDATED,
+    getUpdatedAt: (data) => data.main?.updatedAt ?? ""
+  })
