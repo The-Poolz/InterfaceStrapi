@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import { ApolloProvider, ApolloClient, type NormalizedCacheObject, InMemoryCache } from "./index"
 import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist"
 import GlobalContext from "./globalState/Context"
-import { BATCH_DELAY_MS } from "./globalState/Context"
 import { BatchHttpLink } from "@apollo/client/link/batch-http"
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
@@ -22,7 +21,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
           link: new BatchHttpLink({
             uri: "https://data.poolz.finance/graphql",
             batchMax: 10,        // up to 10 ops per request
-            batchInterval: BATCH_DELAY_MS, 
+            batchInterval: 20,  // wait 20ms before sending
           }),
           cache,
           defaultOptions: {
