@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import { ApolloProvider, ApolloClient, type NormalizedCacheObject, InMemoryCache } from "./index"
 import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist"
 import GlobalContext from "./globalState/Context"
+import { BATCH_DELAY_MS } from "./globalState/Context"
+import { BatchHttpLink } from "@apollo/client/link/batch-http"
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>()
@@ -16,8 +18,12 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
       })
       await newPersistor.restore()
       setClient(
-        new ApolloClient({
-          uri: "https://data.poolz.finance/graphql",
+        new ApolloClient<NormalizedCacheObject>({
+          link: new BatchHttpLink({
+            uri: "https://data.poolz.finance/graphql",
+            batchMax: 10,        // up to 10 ops per request
+            batchInterval: BATCH_DELAY_MS, 
+          }),
           cache,
           defaultOptions: {
             watchQuery: { fetchPolicy: "cache-first" },

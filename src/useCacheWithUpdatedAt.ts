@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react"
 import { useQuery, useLazyQuery, type DocumentNode, NetworkStatus } from "./index"
 import { useGetClient } from "./globalState/Context"
+import { scheduleLazy } from "./utils/scheduleLazy"
+
 
 interface IHookProps<TFull, TUpdated, TVariables extends Record<string, unknown> | undefined = undefined> {
   fullQuery: DocumentNode
@@ -37,7 +39,7 @@ export const useCacheWithUpdatedAt = <TFull, TUpdated, TVariables extends Record
 
   useEffect(() => {
     if (isFromCache) {
-      getLazy({ variables })
+      scheduleLazy(() => getLazy({ variables }))
     }
   }, [isFromCache, getLazy]) // eslint-disable-line react-hooks/exhaustive-deps
 
