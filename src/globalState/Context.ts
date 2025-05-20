@@ -6,6 +6,7 @@ interface IContextType {
 }
 
 const GlobalContext = createContext<IContextType | null>(null)
+export const BATCH_DELAY_MS = 2000
 
 const useGetClient = () => {
   const globalContext = useContext(GlobalContext)
