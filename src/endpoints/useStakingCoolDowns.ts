@@ -2,7 +2,7 @@ import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
 import * as types from "../__generated__/graphql"
 import { graphql } from "../__generated__"
 
-const GET_STAKINH_COOL_DOWNS = graphql(`
+const GET_STAKING_COOL_DOWNS = graphql(`
   query StakingCoolDowns {
     stakingCoolDowns(sort: ["documentId:asc"]) {
       documentId
@@ -14,7 +14,7 @@ const GET_STAKINH_COOL_DOWNS = graphql(`
     }
   }
 `)
-const GET_STAKINH_COOL_DOWNS_UPDATED = graphql(`
+const GET_STAKING_COOL_DOWNS_UPDATED = graphql(`
   query StakingCoolDownsUpdated {
     stakingCoolDowns(sort: ["documentId:asc"]) {
       updatedAt
@@ -24,8 +24,8 @@ const GET_STAKINH_COOL_DOWNS_UPDATED = graphql(`
 
 export const useStakingCoolDowns = () =>
   useCacheWithUpdatedAt<NonNullable<types.StakingCoolDownsQuery>, NonNullable<types.StakingCoolDownsUpdatedQuery>>({
-    fullQuery: GET_STAKINH_COOL_DOWNS,
-    updatedAtQuery: GET_STAKINH_COOL_DOWNS_UPDATED,
+    fullQuery: GET_STAKING_COOL_DOWNS,
+    updatedAtQuery: GET_STAKING_COOL_DOWNS_UPDATED,
     getUpdatedAt: (data) => {
       return data.stakingCoolDowns?.map((c) => c?.updatedAt ?? "").join(",") ?? ""
     }
