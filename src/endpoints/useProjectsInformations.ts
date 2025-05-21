@@ -6,7 +6,7 @@ import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
 import * as types from "../__generated__/graphql"
 
 const GET_PROJECT_DETAILS = graphql(`
-  query ProjectsInformation($documentId: ID!) {
+  query ProjectsInformation($documentId: ID!, $filters: ProjectPhaseFiltersInput) {
     projectsInformation(documentId: $documentId) {
       PoolzBackId
       WhitelistId
@@ -158,6 +158,10 @@ const GET_PROJECT_DETAILS = graphql(`
         }
       }
       updatedAt
+      project_phases(filters: $filters) {
+        MaxInvest
+        documentId
+      }
     }
     covers {
       picture {
@@ -294,7 +298,7 @@ const GET_PROJECTS_DETAILS = graphql(`
   }
 `)
 
-export const useProjectDetails = (documentId: string) =>
+export const useProjectDetails = (documentId: string, filters?: types.ProjectPhaseFiltersInput) =>
   useCacheWithUpdatedAt<
     NonNullable<types.ProjectsInformationQuery>,
     NonNullable<types.ProjectsInformationUpdatedQuery>,
@@ -303,7 +307,7 @@ export const useProjectDetails = (documentId: string) =>
     fullQuery: GET_PROJECT_DETAILS,
     updatedAtQuery: GET_PROJECT_DETAILS_UPDATED,
     getUpdatedAt: (data) => data.projectsInformation?.updatedAt ?? "",
-    variables: { documentId }
+    variables: { documentId, filters }
   })
 
 export const useProjectsInformations = (options?: QueryHookOptions<ProjectsInformationsQuery, ProjectsInformationsQueryVariables>) => {
