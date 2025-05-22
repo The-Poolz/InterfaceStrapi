@@ -60,7 +60,6 @@ const GET_PROJECT_DETAILS = graphql(`
           Symbol
           CirculationSupply
           TotalSupply
-          USDPrice
           TotalRaise
           VisualInfo {
             url
@@ -223,7 +222,6 @@ const GET_PROJECTS_DETAILS = graphql(`
           Symbol
           CirculationSupply
           TotalSupply
-          USDPrice
           TotalRaise
           TokenPrice
         }
