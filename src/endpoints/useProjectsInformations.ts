@@ -157,6 +157,12 @@ const GET_PROJECT_DETAILS = graphql(`
         }
       }
       updatedAt
+      ProjectPhases {
+        Finish
+        MaxInvest
+        Start
+        id
+      }
     }
     covers {
       picture {
@@ -287,6 +293,12 @@ const GET_PROJECTS_DETAILS = graphql(`
             url
           }
         }
+      }
+      ProjectPhases {
+        Finish
+        MaxInvest
+        Start
+        id
       }
     }
   }
