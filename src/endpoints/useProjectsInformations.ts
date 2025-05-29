@@ -11,10 +11,7 @@ const GET_PROJECT_DETAILS = graphql(`
       PoolzBackId
       WhitelistId
       Name
-      StartTime
-      FinishTime
       IsShow
-      IsTimeTBA
       ATHROI
       Warning_Text
       blockLocations
@@ -26,7 +23,6 @@ const GET_PROJECT_DETAILS = graphql(`
         TGE {
           Unlock
           Ratio
-          IsTimeTBA
         }
         non_evm_chain {
           DisplayText
@@ -37,7 +33,6 @@ const GET_PROJECT_DETAILS = graphql(`
         }
         Monthly {
           Ratio
-          IsTimeTBA
           Unlock
         }
       }
@@ -184,12 +179,9 @@ const GET_PROJECTS_DETAILS = graphql(`
     projectsInformations(filters: $filters, sort: $sort, pagination: $pagination) {
       documentId
       IsShow
-      IsTimeTBA
       PoolzBackId
       WhitelistId
       Name
-      StartTime
-      FinishTime
       ATHROI
       ido_badge {
         Name
