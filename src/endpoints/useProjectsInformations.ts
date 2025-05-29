@@ -158,6 +158,7 @@ const GET_PROJECT_DETAILS = graphql(`
         Start
         id
       }
+      Order
     }
     covers {
       picture {
@@ -292,6 +293,7 @@ const GET_PROJECTS_DETAILS = graphql(`
         Start
         id
       }
+      Order
     }
   }
 `)
