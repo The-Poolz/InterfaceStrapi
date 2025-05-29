@@ -300,6 +300,7 @@ const GET_PROJECTS_DETAILS = graphql(`
         Start
         id
       }
+      Order
     }
   }
 `)
