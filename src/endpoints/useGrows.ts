@@ -1,4 +1,4 @@
-import { useQuery, type QueryHookOptions } from "../index"
+import { useLazyQuery, useQuery, type QueryHookOptions } from "../index"
 import { graphql } from "../__generated__"
 import { type GrowsQuery, type GrowsQueryVariables } from "../__generated__/graphql"
 import { useGetClient } from "../globalState/Context"
@@ -50,5 +50,12 @@ export const useGrows = (options?: QueryHookOptions<GrowsQuery, GrowsQueryVariab
     ...options,
     client,
     skip: options?.skip ?? !options?.variables
+  })
+}
+
+export const useLazyGrows = () => {
+  const client = useGetClient()
+  return useLazyQuery(GET_GROWS, {
+    client
   })
 }
