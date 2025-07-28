@@ -16,6 +16,7 @@ const GET_PROJECT_DETAILS = graphql(`
       Warning_Text
       blockLocations
       documentId
+      Participants
       FullTokenDistribution {
         id
         Text
@@ -183,6 +184,7 @@ const GET_PROJECTS_DETAILS = graphql(`
       WhitelistId
       Name
       ATHROI
+      Participants
       ido_badge {
         Name
         ExplainText
