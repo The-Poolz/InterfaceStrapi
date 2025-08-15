@@ -1,6 +1,8 @@
 import { useCacheWithUpdatedAt } from "../useCacheWithUpdatedAt"
 import * as types from "../__generated__/graphql"
 import { graphql } from "../__generated__"
+import { QueryHookOptions, useQuery } from "@apollo/client"
+import { useGetClient } from "globalState/Context"
 
 const GET_CHAIN_SETTINGS = graphql(`
   query ChainSettings {
@@ -28,6 +30,24 @@ const GET_CHAIN_SETTINGS = graphql(`
     }
   }
 `)
+
+const GET_CHAIN_SETTINGS_V2 = graphql(`
+  query Chain($pagination: PaginationArg, $filters: ChainSettingFiltersInput) {
+    chainSettings(pagination: $pagination, filters: $filters) {
+      updatedAt
+      chain {
+        name
+        chainId
+        isTest
+      }
+      colorIcon {
+        icon {
+          url
+        }
+      }
+    }
+  }
+`)
 const GET_CHAIN_SETTINGS_UPDATED = graphql(`
   query ChainSettingsUpdated {
     chainSettings(filters: { Show: { eq: true } }, pagination: { limit: 100 }, sort: ["documentId:asc"]) {
@@ -44,3 +64,13 @@ export const useChainSettings = () =>
       return data.chainSettings?.map((c) => c?.updatedAt ?? "").join(",") ?? ""
     }
   })
+
+export const useChainSettingsV2 = (options?: QueryHookOptions<types.ChainQuery, types.ChainQueryVariables>) => {
+  const client = useGetClient()
+
+  return useQuery<types.ChainQuery, types.ChainQueryVariables>(GET_CHAIN_SETTINGS_V2, {
+    ...options,
+    client,
+    skip: options?.skip ?? !options?.variables
+  })
+}
