@@ -47,6 +47,7 @@ const GET_CHAIN_SETTINGS_V2 = graphql(`
         }
       }
       colorIcon {
+        Color
         icon {
           url
         }
