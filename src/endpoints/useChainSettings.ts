@@ -34,11 +34,17 @@ const GET_CHAIN_SETTINGS = graphql(`
 const GET_CHAIN_SETTINGS_V2 = graphql(`
   query Chain($pagination: PaginationArg, $filters: ChainSettingFiltersInput) {
     chainSettings(pagination: $pagination, filters: $filters) {
-      updatedAt
+      DisplayText
       chain {
-        name
         chainId
+        symbol
+        name
         isTest
+        contracts_on_chain {
+          RPC
+          Decimals
+          Explorer
+        }
       }
       colorIcon {
         icon {
